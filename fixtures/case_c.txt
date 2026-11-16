@@ -1,0 +1,2 @@
+Denominator public case record. Stable synthetic demonstration only.
+case_C was never active during the declared October 2026 reporting period and was therefore outside the frozen active-case eligibility rule.

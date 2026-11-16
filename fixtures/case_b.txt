@@ -1,0 +1,2 @@
+Denominator public case record. Stable synthetic demonstration only.
+case_B is an active case within the declared October 2026 reporting population, and case_B explicitly failed to reach the defined resolution standard during the reporting period.

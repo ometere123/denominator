@@ -1,0 +1,26 @@
+name: Standalone Contract Baseline
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  baseline:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install unit-test tooling
+        run: python -m pip install pytest==8.3.5
+      - name: Static preflight
+        run: python scripts/preflight.py
+      - name: Dependency-free unit/adversarial simulator
+        run: python -m pytest -q tests/unit
+      - name: Python syntax validation
+        run: python -m compileall -q contracts tests scripts

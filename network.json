@@ -1,0 +1,8 @@
+{
+  "environment": "studionet",
+  "chainId": 61999,
+  "rpc": "https://studio.genlayer.com/api",
+  "explorer": "https://explorer-studio.genlayer.com",
+  "cliVersion": "0.39.1",
+  "deploymentAllowedOnOtherNetworks": false
+}

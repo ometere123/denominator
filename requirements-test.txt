@@ -1,0 +1,2 @@
+# GenLayer Direct Mode (GenVM required). Pin tested stable harness family.
+genlayer-test @ git+https://github.com/genlayerlabs/genlayer-testing-suite@v0.29.2

@@ -1,0 +1,41 @@
+# Denominator — standalone Intelligent Contract submission
+
+**Denominator makes a reported success rate accountable to its frozen declared population, not to a cherry-picked list of successful examples.**
+
+Most statistical verification tools validate the formula (`19/20 = 95%`); Denominator first verifies the *membership of the denominator*. Its contract freezes an explicit public closed index before outcomes may be evaluated, requires independently observed source-grounded status for every member, and rechecks the index at finalization. The final result either has an exact, traceable eligible denominator, conservative bounds for pending eligible outcomes, or **no certificate**.
+
+## Why consensus is essential
+
+Eligibility, exclusions and real-world success often require interpreting text in independently maintained public records. A deterministic contract cannot safely derive those classes from arbitrary prose without a trusted off-chain decision-maker. Denominator uses GenLayer's independent leader/validator execution to interpret a frozen member against a frozen rubric. Validators fetch the same source independently, compare actual semantic classes, verify a source digest, and require contiguous quoted evidence for positive outcomes. An unsupported LLM guess has no settlement authority.
+
+## Why this is a primitive rather than an application
+
+There is no frontend, no user account flow, no private database, no token custody and no central API. The sole output is on-chain member status, population completeness and exact/bounded rate evidence. Any downstream contract may consume the frozen definition hash and deterministic certification predicates. Examples include research reporting, SLA performance, grant outcome metrics, agent marketplace fulfillment and verified operational statistics. See `examples/rate_gate.py` for the typed contract interface.
+
+## Defensible guarantees
+
+- No caller-selected subset can replace the **already-published index** at sealing.
+- Every member frozen at sealing remains accounted for during finalization.
+- Source-unavailable, ambiguous or unobserved cases do not silently vanish from the cohort or become presumed failures.
+- Only affirmative quoted evidence can remove a member as ineligible.
+- In-scope pending outcomes widen the reported interval and prevent a point-estimate certificate.
+- A changed public source index invalidates certification.
+- Hash-pinned consumer checks cannot be silently pointed at a new definition.
+
+## Trust assumptions
+
+The closed index's completeness is only as good as its independent publisher. The contract cannot discover records the authoritative index never disclosed. It is a **scoped completeness certificate**, not proof that every event in the world has been enumerated. It does not guarantee physical or social truth of the source documents. See `docs/THREAT_MODEL.md`.
+
+## Reproducible review material
+
+- `contracts/denominator.py`: standalone deployable source, custom validator consensus and deterministic accounting.
+- `tests/unit`: 35 dependency-free adversarial and lifecycle tests (verified locally at package creation).
+- `tests/direct`: real Direct Mode tests requiring the GenLayer test harness (not run during ZIP authoring).
+- `docs/CONSENSUS.md`: precisely what validators independently check.
+- `docs/THREAT_MODEL.md`: hostile and honest-failure cases and non-goals.
+- `fixtures/`: public synthetic cohort examples for exact and bounded outcomes.
+- `DEPLOYMENT.md`: Windows/Ubuntu acceptance, stable 61999 network guard and live-evidence requirements.
+
+## Submission status
+
+**Source prepared; no fabricated production claim.** Deployment, direct-mode tests, source parity and explorer links are pending until the operator can publish `ometere123/denominator`, install compatible GenVM tooling and sign on stable Studionet 61999. The exact score is a reviewer decision; this package does not claim a score or guaranteed acceptance.

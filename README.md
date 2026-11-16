@@ -123,7 +123,7 @@ The network guard refuses to run if the local CLI is missing/wrong, the alias is
 
 ## Current provenance / delivery status
 
-The complete source is packaged for GitHub publication at `ometere123/denominator` and distribution as a ZIP. Check the repository commit for the publication state. No live GenVM deployment or StudioNet validation has been performed by the ZIP authoring environment. There is deliberately no invented contract address, explorer link, transaction hash, finality receipt, or verified on-chain source parity. Those must be added only after independent proof.
+This repository was authored as a downloadable ZIP because the requested `ometere123/denominator` repository returned GitHub 404 through the connected account. It has **not yet been pushed, deployed, or demonstrated through real GenVM on StudioNet**. There is deliberately no invented contract address, explorer link, transaction hash, finality receipt, or verified on-chain source parity. Those must be added only after independent proof.
 
 ## Security & scope
 

@@ -1,0 +1,15 @@
+{
+  "name": "genlayer-denominator",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Standalone GenLayer population-integrity Intelligent Contract (Studionet 61999 only)",
+  "scripts": {
+    "test:offline": "python -m pytest -q tests/unit",
+    "preflight": "python scripts/preflight.py",
+    "network:check": "python scripts/network_guard.py --check-only",
+    "deploy:guarded": "python scripts/network_guard.py --deploy"
+  },
+  "devDependencies": {
+    "genlayer": "0.39.1"
+  }
+}
