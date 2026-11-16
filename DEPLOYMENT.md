@@ -56,4 +56,4 @@ For every real on-chain transaction: protocol transaction ID, explorer URL, `FIN
 
 ## Important conditions
 
-The ZIP is not deployed. No wallet/private keys are provided and no fabricated transaction hashes are included. 404 was observed for the requested GitHub repo through the connected account, so GitHub creation/permission must be resolved by the user or agent before push. If the repo already exists privately, make it visible to the connected GitHub app instead of creating a duplicate.
+The ZIP is not deployed. No wallet/private keys are provided and no fabricated transaction hashes are included. Source files have been published to `https://github.com/ometere123/denominator` through the connected GitHub integration. Install the local toolchain, pass real Direct Mode, and verify the live deployment before claiming readiness.

@@ -468,9 +468,9 @@ class Denominator(gl.Contract):
             study.case_ids.append(cid)
         study.census_hash = result["hash"]
         study.definition_hash = digest(canonical_json({
-            "title": study.title, "scope": study.scope,
-            "eligibility_rule": study.eligibility_rule, "success_rule": study.success_rule,
-            "index_url": study.index_url, "census_hash": study.census_hash,
+            "title": str(study.title), "scope": str(study.scope),
+            "eligibility_rule": str(study.eligibility_rule), "success_rule": str(study.success_rule),
+            "index_url": str(study.index_url), "census_hash": str(study.census_hash),
             "evaluate_after": int(study.evaluate_after), "deadline_at": int(study.deadline_at)
         }))
         study.sealed_at = u256(now)
@@ -549,11 +549,11 @@ class Denominator(gl.Contract):
             study.reason = "complete closed cohort with grounded outcomes"
         if int(study.status) in (CERTIFIED, BOUNDED):
             study.certificate_hash = digest(canonical_json({
-                "study": int(study_id), "definition_hash": study.definition_hash,
-                "census_hash": study.census_hash, "status": int(study.status),
+                "study": int(study_id), "definition_hash": str(study.definition_hash),
+                "census_hash": str(study.census_hash), "status": int(study.status),
                 "case_evidence": [
-                    {"key": self._case(cid).external_key, "status": int(self._case(cid).status),
-                     "source_hash": self._case(cid).source_hash, "evidence": self._case(cid).evidence}
+                    {"key": str(self._case(cid).external_key), "status": int(self._case(cid).status),
+                     "source_hash": str(self._case(cid).source_hash), "evidence": str(self._case(cid).evidence)}
                     for cid in study.case_ids
                 ],
                 "numerator": int(study.numerator), "denominator": int(study.denominator),

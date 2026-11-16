@@ -1,7 +1,5 @@
-# Publication and verification
+# GitHub source publication
 
-Target repository: https://github.com/ometere123/denominator
+The public repository is [ometere123/denominator](https://github.com/ometere123/denominator). The source tree has been pushed and verified through the connected GitHub API. This does not constitute a deployed or verified GenLayer contract.
 
-The source was prepared in a sandbox and distributed as an independently downloadable ZIP. A GitHub publication attempt may also have been made through the connected GitHub integration. Inspect the main branch and confirm every source file, CI configuration and fixture exists. Never interpret repository existence alone as proof of source parity or live StudioNet deployment. The local source hash is recorded in `docs/source-local-sha256.txt`.
-
-No wallet-backed StudioNet deployment or real GenVM consensus proof occurred inside the authoring environment. Follow `DEPLOYMENT.md` to obtain and commit real explorer receipts and source readbacks.
+The final commit and exact remote source hash should be confirmed after every subsequent change. Build a matching ZIP after the final source change. GitHub Actions provides offline cross-platform test evidence only; the real GenVM and stable StudioNet finality gate remain outstanding.

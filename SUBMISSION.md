@@ -38,4 +38,4 @@ The closed index's completeness is only as good as its independent publisher. Th
 
 ## Submission status
 
-**Source prepared; no fabricated production claim.** Deployment, direct-mode tests, source parity and explorer links are pending until the operator can publish `ometere123/denominator`, install compatible GenVM tooling and sign on stable Studionet 61999. The exact score is a reviewer decision; this package does not claim a score or guaranteed acceptance.
+**Repository source published; no fabricated production claim.** Deployment, direct-mode tests, deployed-source parity and explorer links remain pending until the operator can install compatible GenVM tooling and sign on stable Studionet 61999. The exact score is a reviewer decision; this package does not claim a score or guaranteed acceptance.

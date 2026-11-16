@@ -1,1 +1,1 @@
-491caad7494e698b6cef46f0d9b40f9b71b67fd48de8a1fd3a56844de0a2d2b1  contracts/denominator.py
+1d3f3dcc2ce2a7b2f06a862b19fdb92a22a35bc54287483015e55259551c1e3c  contracts/denominator.py
