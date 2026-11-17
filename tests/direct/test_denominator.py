@@ -30,7 +30,7 @@ def census(url=CASE_URL):
 
 def sealed(vm, deploy):
     vm.warp(BASE.isoformat())
-    contract = deploy(CONTRACT)
+    contract = deploy(CONTRACT, sdk_version="v0.2.12")
     vm.mock_web(r".*example\.org/census\.json.*", {"status": 200, "body": census()})
     sid = contract.create_study(
         "Public demo", "Frozen sample cohort", "Active cases count in population",
@@ -179,7 +179,7 @@ def test_native_validator_accepts_grounded_unknown(direct_vm, direct_deploy):
 
 def test_duplicate_census_key_rejected_in_native_web_path(direct_vm, direct_deploy):
     direct_vm.warp(BASE.isoformat())
-    contract = direct_deploy(CONTRACT)
+    contract = direct_deploy(CONTRACT, sdk_version="v0.2.12")
     duplicate = '{"schema":"denominator-census/v1","closed":true,"closed":false,"declared_total":1,"cases":[{"id":"case_A","url":"https://example.org/case-a.txt"}]}'
     direct_vm.mock_web(r".*example\.org/census\.json.*", {"status": 200, "body": duplicate})
     sid = contract.create_study(
@@ -191,7 +191,7 @@ def test_duplicate_census_key_rejected_in_native_web_path(direct_vm, direct_depl
 
 def test_only_author_can_seal_and_draft_cannot_seal_late(direct_vm, direct_deploy, direct_alice):
     direct_vm.warp(BASE.isoformat())
-    contract = direct_deploy(CONTRACT)
+    contract = direct_deploy(CONTRACT, sdk_version="v0.2.12")
     sid = contract.create_study("Test", "scope", "eligible", "success", INDEX_URL,
                                 epoch(START), epoch(DEADLINE))
     with direct_vm.prank(direct_alice):
