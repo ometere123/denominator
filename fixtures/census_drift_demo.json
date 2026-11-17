@@ -4,8 +4,8 @@
   "declared_total": 1,
   "cases": [
     {
-      "id": "case_A",
-      "url": "https://raw.githubusercontent.com/ometere123/denominator/main/fixtures/case_a.txt"
+      "id": "case_B",
+      "url": "https://raw.githubusercontent.com/ometere123/denominator/main/fixtures/case_b.txt"
     }
   ]
 }
