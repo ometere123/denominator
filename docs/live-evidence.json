@@ -1,0 +1,117 @@
+{
+  "network": "studionet",
+  "chain_id": 61999,
+  "chain_id_hex": "0xf22f",
+  "rpc": "https://studio.genlayer.com/api",
+  "cli_version": "0.39.1",
+  "primary": {
+    "address": "0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe",
+    "deployment_tx": "0xa3024d59bfe73a2d1cf47c387b8fcfaea91cbc254b6b42548eca4d207ef77649",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "SUCCESS",
+    "source_sha256": "0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5",
+    "deployed_source_sha256": "0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5",
+    "byte_parity": true
+  },
+  "exact_rate": {
+    "study_id": 1,
+    "registration_tx": "0xd88b69f08627c84bf8bf375c0629ac653e06978fee9a60690bf5da8bd743544b",
+    "seal_tx": "0xeda17303b7940c3588a9898c325fe7ab5a16f6a1900132de126c5dcb67e0b3dc",
+    "observation_txs": {
+      "case_A": "0x1dc87e551e1b8a5f95f519be656e29b6aff22eeb348b526effab69749817099e",
+      "case_B": "0xb70a993e2bdb5728bbd822b35c0e276ade3f10f8f723dfdbe3c86d480fc85209",
+      "case_C": "0xc1800d4272982b765e8e314e7336e21731dea4771b904a7b150ac3d64ce2ad48"
+    },
+    "census_hash": "2b556c2b352f1108ad20ceb1bcab84b3d978e80184277e384cc7cb893aadcd39",
+    "definition_hash": "57f817108494834fc041c1b158c1fc9e1aa095d59c07cec4f10a52a6e40d32c3",
+    "finalization_tx": "0x4e44ab8fa922fe4c2217ec6557c04286726246051bc4973345720afb1760fe3b",
+    "status": "CERTIFIED",
+    "numerator": 1,
+    "denominator": 2,
+    "excluded": 1,
+    "unknown": 0,
+    "unresolved": 0,
+    "lower_bps": 5000,
+    "upper_bps": 5000,
+    "certificate_hash": "44413c3f4339deadb00c7a872720f5a9fb4f8066e11e8d751da8f8dbdb63545e",
+    "threshold_5000": true,
+    "threshold_5001": false
+  },
+  "bounded_rate": {
+    "study_id": 3,
+    "registration_tx": "0xbf2298f27b4b6431f843dec33e167f75c051a5cd3a49a238dac8350aff59ba75",
+    "seal_tx": "0x3fcfcb32cdd8574cb362f10ddb5eb23ad634a600adcdca0368d4f70bb1126723",
+    "observation_txs": {
+      "case_A": "0x47c1500bed8a81605a0444a165a6e1705e73070441aeaa02c901831dbb88a9f9",
+      "case_B": "0x63d63482d909894d301af1e9a85b8b20f666b80ee604f3be8d1cf6d55aee19d5",
+      "case_C": "0x64b035f0c810fc6b8fa8658c5debb254a77542ba195146f5012618e799a9ce49",
+      "case_D": "0x39d5d58bc4be991f993ae8ee1169fad06ca81db6bc2695768f58c72917061dfa"
+    },
+    "census_hash": "888540a02b6dba9fafa2c6ddfcc4809fa8aa0e08131e71fd79fad8a82ec579cc",
+    "definition_hash": "87d7a029f7d96f3f66db76f92311908cece3f0d2f1c57c26bd221a2fa64fdf42",
+    "finalization_tx": "0x5436cff22bed60816712bdddc40434add2d1ce804ad09dc62ecf43cdd4526be2",
+    "status": "BOUNDED",
+    "numerator": 1,
+    "denominator": 3,
+    "excluded": 1,
+    "unknown": 1,
+    "unresolved": 0,
+    "lower_bps": 3333,
+    "upper_bps": 6667,
+    "exact_certification": false,
+    "floor_3333": true,
+    "floor_3334": false
+  },
+  "incomplete": {
+    "study_id": 4,
+    "registration_tx": "0xd97aa4dfffb725e360d78f87b543c59c1d203acfc364f2ad7e701a389f7f61c3",
+    "seal_tx": "0xc467ffa9077df9e500d2efb1feae2e20d41eed8fa44de9d92d0d4beec862d821",
+    "finalization_tx": "0xc24e44edee7d9b2f54960daf20cd2ffe1dadb48ce5832ed05cf2a705a54748a6",
+    "status": "INCOMPLETE",
+    "unresolved": 3,
+    "certificate_hash": ""
+  },
+  "zero_population": {
+    "study_id": 5,
+    "registration_tx": "0xa730f4719363b5ab1d2e6989ec70c6181fc3b2fedddf9e8fdea18107587a6d1e",
+    "seal_tx": "0x163f2aa5f10b597025ca65b668b3b6d91c3f5eaa176806554b1cc76dde97fd3f",
+    "observation_tx": "0x2be4c394f6a4516e296f9b2d40e06d213ae9794634d72fb18d366a7a30131734",
+    "finalization_tx": "0xb42e16ec76434fccf18ba567948528c0a066315edd2e4f52e93145649cd755ad",
+    "status": "ZERO_POPULATION",
+    "eligible_denominator": 0,
+    "excluded": 1,
+    "certificate_hash": ""
+  },
+  "census_drift": {
+    "study_id": 6,
+    "registration_tx": "0x7a85719745b08d69c177049324099a0b222933fa8e34a4854dfa56c9c1767f70",
+    "seal_tx": "0x751a9de70d9a735c85da3dee565612c4b1a7b860e509d6beb968bb9a156358a3",
+    "sealed_census_hash": "80feaf62d549c267a3f14b2f6fa33f726b3db19c1a533e354b169942c91a4952",
+    "changed_fixture_commit": "626cd17",
+    "changed_census_hash": "a89f01b5eaf3e1e567a1c3b5785c1895e1cb66356c76e28ee0508669c206b951d",
+    "status": "CENSUS_DRIFTED",
+    "finalization_tx": "0xf101410d697ad95e79981c29bfb80f37c5ecffec6bb598fbe9180d47dcb4423d",
+    "certificate_hash": "",
+    "rate_predicate": false,
+    "floor_predicate": false,
+    "finalized_at": 1794904930,
+    "note": "The valid public manifest changed from case_A to case_B after sealing. Finalization reached MAJORITY_AGREE with successful execution and stored CENSUS_DRIFTED."
+  },
+  "consumer": {
+    "address": "0x592794e907166f7ff748E4e8bAc8398f30b8877a",
+    "deployment_tx": "0xa4cca14d3105e0172918a55519e7c710fbd1fd2e232f65549db9f9963cd3f517",
+    "source_sha256": "cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d",
+    "deployed_source_sha256": "cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d",
+    "byte_parity": true,
+    "unlock_tx": "0xa8804488eba63f6dcad0cd08e21c58de3b6b51050eeb865f739b6945523a6f4e",
+    "unlock_result": "SUCCESS",
+    "replay_tx": "0x5ee9508c801539cd96f42ac9a7882270e508c2f24fdfec282bea8bade0cb873e",
+    "replay_result": "EXPECTED_ROLLBACK_gate already unlocked",
+    "is_unlocked": true
+  },
+  "scope_notes": [
+    "All live fixtures are controlled synthetic files in the public repository.",
+    "Different URLs and hostnames do not prove independent publishers.",
+    "The protocol certifies accounting relative to the declared public census; it does not prove universal real-world completeness or source truth."
+  ]
+}

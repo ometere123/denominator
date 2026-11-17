@@ -1,6 +1,6 @@
 0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5  contracts/denominator.py
 cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d  examples/rate_gate.py
 
-These are the final working-tree hashes for the pending GenVM metadata correction.
-They are not deployed-source hashes until a finalized StudioNet deployment and
-independent code readback have been completed.
+These are the final working-tree hashes. The primary and consumer were each
+read back through gen_getContractCode on stable StudioNet and matched these
+bytes exactly at the successful deployments recorded in DEPLOYMENT.md.

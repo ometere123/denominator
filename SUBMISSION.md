@@ -2,6 +2,10 @@
 
 **Denominator makes a reported success rate accountable to its frozen declared population, not to a cherry-picked list of successful examples.**
 
+## Submission description (644 characters including spaces)
+
+Denominator is a GenLayer Intelligent Contract that prevents a reported success rate from being certified over a cherry-picked subset of a frozen public population. Independent leader and validator executions fetch and validate the complete closed census and case evidence; deterministic settlement accounts for every member, preserves failures and unknowns, detects census drift, and exposes exact-rate or conservative-floor predicates. A typed RateGate demonstrates one-shot IC-to-IC consumption. The contract proves scoped accounting over the declared public census—not universal real-world completeness, publisher identity, or source truth.
+
 Most statistical verification tools validate the formula (`19/20 = 95%`); Denominator first verifies the *membership of the denominator*. Its contract freezes an explicit public closed index before outcomes may be evaluated, requires independently observed source-grounded status for every member, and rechecks the index at finalization. The final result either has an exact, traceable eligible denominator, conservative bounds for pending eligible outcomes, or **no certificate**.
 
 ## Why consensus is essential
@@ -34,9 +38,9 @@ The closed index's completeness is only as good as its independent publisher. Th
 - `scripts/mutation_check.py`: three focused security mutants killed by the unit regressions.
 - `docs/CONSENSUS.md`: precisely what validators independently check.
 - `docs/THREAT_MODEL.md`: hostile and honest-failure cases and non-goals.
-- `fixtures/`: public synthetic cohort examples for exact and bounded outcomes.
+- `fixtures/`: public synthetic cohort examples for exact, bounded, incomplete, zero-population and drift controls.
 - `DEPLOYMENT.md`: Windows/Ubuntu acceptance, stable 61999 network guard and live-evidence requirements.
 
 ## Submission status
 
-**Repository source published; no fabricated production claim.** Offline, native Direct Mode, mutation, preflight, compilation and stable `v0.2.12` linter/schema checks pass in the current environment. Finalized StudioNet deployment, live exact/bounded/drift lifecycle receipts, independent consumer execution and deployed-source parity remain pending until they are actually performed on stable chain 61999. The exact score is a reviewer decision; this package does not claim a score or guaranteed acceptance.
+The final primary and consumer are deployed on stable StudioNet 61999 with exact deployed-source byte parity. Controlled live proofs include a finalized exact certificate, bounded-rate interval, incomplete result, zero-population result, census-drift invalidation, and one-shot consumer unlock/replay protection. The exact, bounded and drift fixtures are repository-controlled synthetic evidence, so they do not prove independent publisher identity or universal population completeness. The exact score is a reviewer decision; this package does not claim a score or guaranteed acceptance.

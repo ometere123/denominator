@@ -66,7 +66,7 @@ The correct scoped rate is `1 / 2 = 50%`, not `1 / 1 = 100%` and not `1 / 3` if 
 
 **Views:** `get_study`, `get_case`, `is_rate_certified(study_id, expected_definition_hash, min_bps)`, `is_floor_proven(study_id, expected_definition_hash, min_bps)`.
 
-Both consumer gates require an exact **pinned definition hash**. The example `examples/rate_gate.py` is optional documentation of composition, not a claimed live deployment.
+Both consumer gates require an exact **pinned definition hash**. `examples/rate_gate.py` remains a minimal permissionless one-shot composition example; a finalized StudioNet instance is recorded in the live evidence ledger below.
 
 ## Census input format
 
@@ -126,7 +126,11 @@ The network guard refuses to run if the local CLI is missing/wrong, the alias is
 
 ## Current provenance / delivery status
 
-The current source is published at [`ometere123/denominator`](https://github.com/ometere123/denominator). Local verification currently records 40 unit tests, 11 native Direct Mode tests, three focused mutation checks, preflight, Python compilation, and GenVM 0.11.0 AST/semantic ABI validation against the pinned stable `v0.2.12` artifact. It has **not yet been deployed or demonstrated through finalized transactions on StudioNet** in this work. There is deliberately no invented contract address, explorer link, transaction hash, finality receipt, or verified on-chain source parity.
+The current source is published at [`ometere123/denominator`](https://github.com/ometere123/denominator). Local verification records 40 unit tests, 11 native Direct Mode tests, three focused mutation checks, preflight, Python compilation, and GenVM 0.11.0 AST/semantic ABI validation against the pinned stable `v0.2.12` artifact. The final primary was deployed to stable StudioNet at `0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe` in transaction `0xa3024d59bfe73a2d1cf47c387b8fcfaea91cbc254b6b42548eca4d207ef77649`; the deployment finalized with `MAJORITY_AGREE`, successful execution, and exact `gen_getContractCode` byte parity. A correctly typed `RateGate` is deployed at `0x592794e907166f7ff748E4e8bAc8398f30b8877a` in transaction `0xa4cca14d3105e0172918a55519e7c710fbd1fd2e232f65549db9f9963cd3f517`.
+
+The live ledger records controlled synthetic exact-rate, bounded-rate, incomplete, zero-population and finalized census-drift demonstrations, plus a finalized consumer unlock and replay rollback. These fixtures are mechanics evidence only: they are hosted in this repository and do not establish publisher independence, universal population completeness or real-world truth.
+
+The primary source SHA-256 is `0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5`; the deployed code readback is byte-identical. The consumer source SHA-256 is `cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d`; its successful deployment readback is also byte-identical. See [`docs/live-evidence.json`](docs/live-evidence.json) and [`DEPLOYMENT.md`](DEPLOYMENT.md) for transaction-level details.
 
 ## Security & scope
 

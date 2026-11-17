@@ -8,6 +8,8 @@ response validation, true Keccak test vectors, native Direct Mode validator
 regressions, a focused mutation check, the repository-local CLI lockfile,
 stable direct-RPC guarding, and CI jobs for Direct Mode and GenVM validation.
 
-The final commit SHA and workflow URL must be filled from the actual push and
-run after all local checks complete. No transaction, address, explorer URL or
-deployed-source parity claim belongs here until it is observed on StudioNet.
+The current release history includes the final primary deployment and the
+controlled live fixtures. The final documentation commit and its green workflow
+URL must be updated after the closeout push. The current successful pre-closeout
+workflow is `https://github.com/ometere123/denominator/actions/runs/44042941992`.
+No historical workflow is treated as proof for a later source change.
