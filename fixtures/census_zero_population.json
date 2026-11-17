@@ -1,0 +1,11 @@
+{
+  "schema": "denominator-census/v1",
+  "closed": true,
+  "declared_total": 1,
+  "cases": [
+    {
+      "id": "case_C",
+      "url": "https://raw.githubusercontent.com/ometere123/denominator/main/fixtures/case_c.txt"
+    }
+  ]
+}
