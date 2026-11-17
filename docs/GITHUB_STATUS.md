@@ -8,8 +8,11 @@ response validation, true Keccak test vectors, native Direct Mode validator
 regressions, a focused mutation check, the repository-local CLI lockfile,
 stable direct-RPC guarding, and CI jobs for Direct Mode and GenVM validation.
 
-The current release history includes the final primary deployment and the
-controlled live fixtures. The final documentation commit and its green workflow
-URL must be updated after the closeout push. The current successful pre-closeout
-workflow is `https://github.com/ometere123/denominator/actions/runs/44042941992`.
-No historical workflow is treated as proof for a later source change.
+The final tested contract/evidence source commit is
+`7a2240c69b451ac39d9ede5bd71fdaf10f6097b7` on `main`. GitHub Actions run
+`https://github.com/ometere123/denominator/actions/runs/44049720163` completed
+successfully for that exact commit. Ubuntu baseline, Windows baseline, Direct
+Mode and GenVM lint jobs all passed. This status-file amendment is
+documentation-only and does not change either contract source; the final branch
+head and its follow-up CI run are recorded in the release report. Earlier
+workflows remain historical and are not treated as proof for this source.
