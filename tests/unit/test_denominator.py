@@ -5,17 +5,21 @@ before deployment; these tests exercise deterministic logic and adversarial
 leader/validator control flow without pretending to be a chain run.
 """
 import dataclasses
-import hashlib
 import importlib.util
 import json
+import os
 import sys
 import types
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import pytest
+from Crypto.Hash import keccak
 
-CONTRACT = Path(__file__).resolve().parents[2] / "contracts" / "denominator.py"
+CONTRACT = Path(os.environ.get(
+    "DENOMINATOR_CONTRACT_PATH",
+    str(Path(__file__).resolve().parents[2] / "contracts" / "denominator.py"),
+))
 BASE = datetime(2026, 11, 17, 12, 0, 0, tzinfo=timezone.utc)
 
 
@@ -106,7 +110,7 @@ def env(monkeypatch):
     fake.u32 = int
     fake.u256 = int
     fake.allow_storage = lambda obj: obj
-    fake.Keccak256 = lambda data: hashlib.sha3_256(data)  # local stub; never used for source parity claims
+    fake.Keccak256 = lambda data: keccak.new(digest_bits=256, data=data)
     monkeypatch.setitem(sys.modules, "genlayer", fake)
     spec = importlib.util.spec_from_file_location("denominator_under_test", CONTRACT)
     module = importlib.util.module_from_spec(spec)
@@ -174,6 +178,30 @@ def test_strict_manifest_deduplicates_and_sorts(env):
     got = env.m.decode_manifest(manifest(rows))
     assert [x["id"] for x in got["cases"]] == ["A", "B"]
     assert got["cases"][1]["url"] == "https://example.org/b"
+
+
+def test_duplicate_manifest_keys_fail_closed(env):
+    duplicate_root = '{"schema":"denominator-census/v1","closed":true,"closed":false,"declared_total":1,"cases":[{"id":"A","url":"https://example.org/a"}]}'
+    with pytest.raises(ValueError, match="invalid census JSON"):
+        env.m.decode_manifest(duplicate_root)
+
+
+def test_duplicate_nested_manifest_keys_fail_closed(env):
+    duplicate_row = '{"schema":"denominator-census/v1","closed":true,"declared_total":1,"cases":[{"id":"A","url":"https://example.org/a","url":"https://evil.example/a"}]}'
+    with pytest.raises(ValueError, match="invalid census JSON"):
+        env.m.decode_manifest(duplicate_row)
+
+
+def test_model_schema_rejects_duplicate_or_extra_fields(env):
+    with pytest.raises(ValueError, match="model response schema mismatch"):
+        env.m.parse_model_result({"status": "SUCCESS", "evidence": "x", "reason": "y", "extra": "z"})
+    with pytest.raises(ValueError, match="duplicate JSON object key"):
+        env.m.parse_model_result('{"status":"SUCCESS","status":"FAILURE","evidence":"x","reason":"y"}')
+
+
+def test_keccak_digest_uses_keccak_not_nist_sha3(env):
+    assert env.m.digest("") == "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    assert env.m.digest("abc") == "4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45"
 
 
 @pytest.mark.parametrize("mutator", [
@@ -297,6 +325,15 @@ def test_census_drift_invalidation_even_with_successful_cases(env):
     assert s["status_name"]=="CENSUS_DRIFTED"
     assert not s["certificate_hash"]
     assert not env.c.is_rate_certified(sid,s["definition_hash"],0)
+
+
+def test_census_fetch_outage_does_not_become_drift(env):
+    sid = good_three(env)
+    env.web.pages["https://example.org/cohort.json"] = None
+    warp(env, 36)
+    with pytest.raises(OSError):
+        env.c.finalize(sid)
+    assert env.c.get_study(sid)["status_name"] == "SEALED"
 
 
 def test_missing_page_is_unavailable_not_failure(env):

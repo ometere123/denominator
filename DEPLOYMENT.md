@@ -1,59 +1,93 @@
 # Stable StudioNet deployment and acceptance
 
-## Hard constraints
+This repository is locked to stable GenLayer StudioNet:
 
-| Property | Pinned value |
+| Property | Required value |
 | --- | --- |
 | Network alias | `studionet` |
-| Chain | **61999** |
-| RPC | **`https://studio.genlayer.com/api`** |
-| CLI | **repo-local `genlayer@0.39.1`** |
-| User's global CLI | may remain `0.40.0rc2`; do not alter/use it |
-| Contract | `contracts/denominator.py` |
-| Secondary contract | optional `examples/rate_gate.py`, not required |
+| Chain | `61999` / `0xf22f` |
+| RPC | `https://studio.genlayer.com/api` |
+| Local CLI | `genlayer@0.39.1` |
+| Primary source | `contracts/denominator.py` |
+| Optional consumer | `examples/rate_gate.py` |
 
-## Windows PowerShell from an extracted repository
+Never use chain 61997, Studio Dev, Studio Next, a preview network, or the
+global `genlayer` executable. The deployment wrapper invokes the repository
+local `node_modules/.bin/genlayer.cmd` on Windows (or the corresponding local
+Unix executable), selects the `studionet` profile, and performs a direct
+JSON-RPC `eth_chainId` check before any deploy command. It intentionally does
+not pass an ad-hoc `--rpc` flag that could bypass the pinned stable profile.
+
+## Reproducible Windows setup
 
 ```powershell
-cd "$HOME\Downloads\denominator"
-py -3 -m pip install pytest==8.3.5
-py -3 scripts/preflight.py
-py -3 -m pytest -q tests/unit
-npm install
-py -3 scripts/network_guard.py --check-only
-# Only once all checks pass and the correct selected CLI wallet is funded:
-py -3 scripts/network_guard.py --deploy
+Set-Location "$env:USERPROFILE\Downloads\denominator"
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-test.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-lint.txt
+npm ci --ignore-scripts
+cmd /c node_modules\.bin\genlayer.cmd --version
+.\.venv\Scripts\python.exe scripts\preflight.py
+.\.venv\Scripts\python.exe -m pytest -q tests\unit
+.\.venv\Scripts\python.exe -m pytest -q tests\direct
+.\.venv\Scripts\python.exe scripts\mutation_check.py
+.\.venv\Scripts\python.exe scripts\network_guard.py --check-only
 ```
 
-The guarded deployment invokes only `node_modules/.bin/genlayer.cmd`, verifies **exact CLI 0.39.1**, sets stable `studionet`, checks the printed chain ID and RPC against `network.json`, then passes an explicit stable RPC to the deploy command. If network info lacks either required field it *refuses to deploy*. Never fall back to the globally installed CLI or a preview network.
+The local CLI version must be exactly `0.39.1`, and the guard must print a
+direct RPC result of `0xf22f`. If either check fails, stop before signing.
+`network_guard.py --check-only` is read-only apart from selecting the local
+CLI's named network profile. The deploy mode additionally runs preflight and
+checks that the selected CLI account exposes a public address; it never prints
+private key material.
 
-`npm install` uses the exact package pin and creates a package-lock file. Commit `package-lock.json` once generated. Do **not** do `npm install -g`, do **not** upgrade to an RC because of a local installer warning.
+## Deployment gate
 
-## Real test gates before live submission
+Before deployment, record the final contract SHA-256 and commit the exact
+source. Run the offline suite, native Direct Mode, mutation checks, Python
+compilation, preflight, `genvm-lint lint`, and stable `v0.2.12` semantic ABI
+validation. The current verified local results are documented in
+`docs/TEST_REPORT.md`. Direct Mode is native local GenVM execution, not a live
+StudioNet proof.
 
-The authoring environment lacked network access to npm and to the GenLayer testing-suite source, so the local 35-case simulator pass has **not** validated real GenVM behaviour. The release operator must:
+The stable linter command is:
 
-1. Install a known-stable `genlayer-test` matching CLI/Studionet, initially from `requirements-test.txt`.
-2. Run `python -m pytest -q tests/direct` on Windows and Ubuntu. Investigate harness compatibility rather than weakening tests. If the dependency/GenVM cannot be installed, disclose the blocker.
-3. Run `genvm-lint` via pinned stable linter if available, without substituting unreleased artifacts. If the pin cannot be fetched, do not report lint as passing.
-4. Prove the on-chain transaction lifecycle and independently reproduced semantic observation on stable 61999.
-5. Commit final source hash before deployment and compare deployed source with committed source exactly.
+```powershell
+$env:GENVM_VERSION = "v0.2.12"
+.\.venv\Scripts\genvm-lint.exe validate contracts\denominator.py --json
+.\.venv\Scripts\genvm-lint.exe validate examples\rate_gate.py --json
+Remove-Item Env:GENVM_VERSION
+```
 
-## Live proof plan using published fixtures
+Expected validation schemas are 5 writes/4 views for `Denominator` and 1
+write/1 view for `RateGate`.
 
-Fixture manifests in `fixtures/census_complete.json` and `fixtures/census_bounded.json` point at the intended public GitHub repo. They will not work until that repository exists at `ometere123/denominator` and the files are visible. After importing the ZIP, commit fixtures before beginning the experiment; preferably host them from immutable Git commit URLs or a separately versioned evidence repository to avoid accidental drift.
+## Guarded deployment
 
-Demo protocol:
+```powershell
+.\.venv\Scripts\python.exe scripts\network_guard.py --deploy
+```
 
-- **Exact case:** closed census A/B/C. Create a prospective study with the scope `October 2026 synthetic public case population; active cases eligible`, eligibility rule `active in October 2026`, success rule `explicitly fully resolved successfully during October 2026`, and index URL referencing `fixtures/census_complete.json` at a stable public revision. Seal before start. Observe all 3 cases during window. Finalize strictly after deadline. Expect `SUCCESS, FAILURE, EXCLUDED` and `CERTIFIED`, numerator 1, eligible denominator 2, lower/upper both 5000 bps.
-- **Bounded case:** closed census A/B/C/D. Same rules, with D's outcome unknown. Expect `BOUNDED`, numerator 1, denominator 3, unknown 1, lower 3333 and upper 6667 bps; `is_rate_certified` false and `is_floor_proven(...,3333)` true.
-- **Census drift case:** use a separately hosted/isolated mutable test index, not the production fixture, and change its declared membership between seal and finalize; expect `CENSUS_DRIFTED`, zero certificate hash. Do not mutate the canonical fixture used by any other demo.
-- **Adversarial case:** independently validator-rejected forged `SUCCESS` against a source that says the case is pending. Reproduce via Direct Mode; do not claim on-chain malicious-leader injection if it cannot be executed in a controlled environment.
+The CLI may request the configured wallet password interactively. Supply it
+only to the local terminal; never place it in a file, command line, log or
+commit. After the command returns, inspect the actual receipt. A broadcast or
+`FINALIZED` status alone is not a successful deployment: require the platform's
+successful execution result and a contract-code readback.
 
-## Evidence that must actually be recorded
+Deploy the optional consumer only after the primary address is finalized. Bind
+the typed primary address, exact study ID, definition hash and threshold in
+the constructor. It is a deliberately permissionless one-shot gate; it proves
+the primary predicate and replay protection, not custody or payment.
 
-For every real on-chain transaction: protocol transaction ID, explorer URL, `FINALIZED`, successful GenVM execution result, persisted state readback, consensus result, and complete source parity. For the exact-rate demonstration, provide the index URL and content digest, all case sources, every `CaseRecord` and the final `Study`. Readbacks must match the final hash-pinned definition. Store this in `docs/live-evidence.json` only when it is **real**. The supplied `docs/live-evidence.template.json` is intentionally blank.
+## Live proof ledger
 
-## Important conditions
+Record each transaction separately with its hash, finality, execution result,
+consensus result and state readback. The exact-rate, bounded-rate,
+census-drift, incomplete, zero-population and consumer demonstrations are not
+claimed until they have actually been finalized on chain. Store only real
+values in `docs/live-evidence.json`; the template remains blank until then.
 
-The ZIP is not deployed. No wallet/private keys are provided and no fabricated transaction hashes are included. Source files have been published to `https://github.com/ometere123/denominator` through the connected GitHub integration. Install the local toolchain, pass real Direct Mode, and verify the live deployment before claiming readiness.
+The public fixtures are synthetic and controlled. Their use can demonstrate
+protocol mechanics, but not publisher independence, universal population
+completeness or real-world truth. A census outage at finalization must remain
+an availability/consensus failure, not be relabelled as `CENSUS_DRIFTED`.

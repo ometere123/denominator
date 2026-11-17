@@ -117,6 +117,36 @@ def canonical_json(value: typing.Any) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
 
 
+def reject_duplicate_json_keys(pairs: list) -> dict:
+    """Reject ambiguous JSON objects instead of silently applying last-key-wins."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate JSON object key")
+        result[key] = value
+    return result
+
+
+def response_body(response: typing.Any) -> str:
+    """Decode a GenLayer web response without assuming a missing field is success."""
+    body = getattr(response, "body", None)
+    if isinstance(body, bytes):
+        return body.decode("utf-8")
+    if isinstance(body, str):
+        return body
+    raise ValueError("web response body unavailable")
+
+
+def response_status(response: typing.Any) -> int:
+    """Support stable runtime response naming while failing closed on unknown status."""
+    value = getattr(response, "status_code", None)
+    if value is None:
+        value = getattr(response, "status", None)
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise ValueError("web response status unavailable")
+    return value
+
+
 def digest(value: str) -> str:
     return Keccak256(value.encode("utf-8")).hexdigest()
 
@@ -138,7 +168,8 @@ def epoch_now() -> int:
 
 
 def validate_url(value: str) -> str:
-    value = str(value).strip()
+    if not isinstance(value, str) or value != value.strip():
+        raise gl.vm.UserError("EXPECTED: public HTTPS URL required")
     if len(value) == 0 or len(value) > MAX_URL or not value.lower().startswith("https://"):
         raise gl.vm.UserError("EXPECTED: public HTTPS URL required")
     if any(char in value for char in ("%", "\\", "#", "@", " ", "\n", "\t")):
@@ -185,7 +216,10 @@ def decode_manifest(body: str) -> dict:
     """Strict machine-readable closed cohort; never trust an LLM to enumerate rows."""
     if not isinstance(body, str) or not body or len(body.encode("utf-8")) > MAX_CENSUS_BYTES:
         raise ValueError("missing or oversized census")
-    doc = json.loads(body)
+    try:
+        doc = json.loads(body, object_pairs_hook=reject_duplicate_json_keys)
+    except (TypeError, ValueError, UnicodeError):
+        raise ValueError("invalid census JSON")
     if not isinstance(doc, dict) or set(doc) != {"schema", "closed", "declared_total", "cases"}:
         raise ValueError("invalid census schema")
     if doc["schema"] != "denominator-census/v1" or doc["closed"] is not True:
@@ -220,17 +254,22 @@ def classification_from_label(label: typing.Any) -> int:
 
 def parse_model_result(value: typing.Any) -> dict:
     if isinstance(value, dict):
-        return value
-    if not isinstance(value, str):
-        raise ValueError("invalid model output")
-    source = value.strip()
-    if source.startswith("```"):
-        source = source.split("\n", 1)[-1]
-        if source.endswith("```"):
-            source = source[:-3]
-    obj = json.loads(source.strip())
+        obj = value
+    else:
+        if not isinstance(value, str):
+            raise ValueError("invalid model output")
+        source = value.strip()
+        if source.startswith("```"):
+            source = source.split("\n", 1)[-1]
+            if source.endswith("```"):
+                source = source[:-3]
+        obj = json.loads(source.strip(), object_pairs_hook=reject_duplicate_json_keys)
     if not isinstance(obj, dict):
         raise ValueError("model did not return an object")
+    if set(obj) != {"status", "evidence", "reason"}:
+        raise ValueError("model response schema mismatch")
+    if not isinstance(obj["status"], str) or not isinstance(obj["evidence"], str) or not isinstance(obj["reason"], str):
+        raise ValueError("model response types invalid")
     return obj
 
 
@@ -249,10 +288,9 @@ def rate_bounds(success: int, failure: int, unknown: int) -> dict:
 
 def fetch_census(url: str) -> dict:
     response = gl.nondet.web.get(url)
-    if int(getattr(response, "status_code", 200)) != 200:
+    if response_status(response) != 200:
         raise ValueError("census HTTP status is not 200")
-    raw = response.body.decode("utf-8")
-    return decode_manifest(raw)
+    return decode_manifest(response_body(response))
 
 
 def case_prompt(case_key: str, page: str, scope: str, eligibility: str, success: str) -> str:
@@ -276,9 +314,9 @@ FROZEN_SCOPE_JSON\n""" + canonical_json(scope) + "\nELIGIBILITY_JSON\n" + canoni
 def inspect_case_once(url: str, key: str, scope: str, eligibility: str, success: str) -> dict:
     try:
         response = gl.nondet.web.get(url)
-        if int(getattr(response, "status_code", 200)) != 200:
+        if response_status(response) != 200:
             raise ValueError("source HTTP status")
-        page = response.body.decode("utf-8")
+        page = response_body(response)
         if not page.strip() or len(page.encode("utf-8")) > MAX_CASE_BYTES:
             raise ValueError("source empty or oversized")
     except Exception:

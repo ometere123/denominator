@@ -1,2 +1,4 @@
 # GenLayer Direct Mode (GenVM required). Pin tested stable harness family.
 genlayer-test @ git+https://github.com/genlayerlabs/genlayer-testing-suite@v0.29.2
+# The offline suite checks true Keccak-256 vectors (not NIST SHA3-256).
+pycryptodome==3.24.1

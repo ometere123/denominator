@@ -1,5 +1,13 @@
-# GitHub source publication
+# GitHub and release status
 
-The public repository is [ometere123/denominator](https://github.com/ometere123/denominator). The source tree has been pushed and verified through the connected GitHub API. This does not constitute a deployed or verified GenLayer contract.
+Repository: https://github.com/ometere123/denominator
 
-The final commit and exact remote source hash should be confirmed after every subsequent change. Build a matching ZIP after the final source change. GitHub Actions provides offline cross-platform test evidence only; the real GenVM and stable StudioNet finality gate remain outstanding.
+The historical baseline was `6a10889611e169a80492fc71e96499d30d1b5dd2`.
+The current release work adds strict duplicate-key rejection, explicit web
+response validation, true Keccak test vectors, native Direct Mode validator
+regressions, a focused mutation check, the repository-local CLI lockfile,
+stable direct-RPC guarding, and CI jobs for Direct Mode and GenVM validation.
+
+The final commit SHA and workflow URL must be filled from the actual push and
+run after all local checks complete. No transaction, address, explorer URL or
+deployed-source parity claim belongs here until it is observed on StudioNet.

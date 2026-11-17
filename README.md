@@ -84,7 +84,7 @@ A public UTF-8 JSON source with exactly these keys:
 }
 ```
 
-The case set is bounded to 24 entries per study. IDs must be ASCII alphanumeric plus `_` or `-`; duplicates are rejected; records require public HTTPS; declared count must equal actual entries; any extra field or malformed data rejects the manifest. The source is checked again after the observation deadline before a certificate can be issued. Use stable/commit-pinned source URLs rather than mutable dashboards for production applications.
+The case set is bounded to 24 entries per study. IDs must be ASCII alphanumeric plus `_` or `-`; duplicate raw JSON keys and duplicate member IDs are rejected; records require public HTTPS; declared count must equal actual entries; any extra field or malformed data rejects the manifest. The source is checked again after the observation deadline before a certificate can be issued. Use stable/commit-pinned source URLs rather than mutable dashboards for production applications.
 
 ## Architecture and trust boundaries
 
@@ -100,30 +100,33 @@ Python 3.12+ and Node.js 22 LTS are suitable. On **Windows PowerShell**:
 
 ```powershell
 cd <your\denominator\folder>
-py -3 -m pip install pytest==8.3.5
-py -3 scripts/preflight.py
-py -3 -m pytest -q tests/unit
-npm install   # installs the exact repo-local genlayer CLI 0.39.1
-py -3 scripts/network_guard.py --check-only
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install pytest==8.3.5 pycryptodome==3.24.1
+npm ci --ignore-scripts
+.\.venv\Scripts\python.exe scripts/preflight.py
+.\.venv\Scripts\python.exe -m pytest -q tests/unit
+.\.venv\Scripts\python.exe scripts/mutation_check.py
+.\.venv\Scripts\python.exe -m compileall -q contracts tests scripts examples
+.\.venv\Scripts\python.exe scripts/network_guard.py --check-only
 ```
 
 On **Linux/macOS**:
 
 ```bash
-python3 -m pip install pytest==8.3.5
+python3 -m pip install pytest==8.3.5 pycryptodome==3.24.1
 python3 scripts/preflight.py
 python3 -m pytest -q tests/unit
-npm install
+npm ci --ignore-scripts
 python3 scripts/network_guard.py --check-only
 ```
 
-The network guard refuses to run if the local CLI is missing/wrong, the alias is wrong, the reported chain ID is not 61999, or the RPC is not the exact stable Studio endpoint. It never selects your global CLI 0.40 RC. Run `npm install` from **this repository**, which will create a `package-lock.json`; commit the generated lockfile before final review.
+The network guard refuses to run if the local CLI is missing/wrong, the alias is wrong, the reported chain ID is not 61999, or the direct `eth_chainId` RPC result is not `0xf22f`. It never selects your global CLI 0.40 RC. The committed lockfile pins the repository-local CLI; use `npm ci` for reproducible installs.
 
-**Real GenLayer Direct Mode is a separate step:** install `requirements-test.txt` and run `pytest -q tests/direct` on an environment with a compatible stable GenVM testing stack. The 35 unit/adversarial simulator tests shipped with the ZIP are not a substitute. See [Deployment](DEPLOYMENT.md).
+**Real GenLayer Direct Mode is a separate step:** install `requirements-test.txt` and run `pytest -q tests/direct` on an environment with the compatible stable GenVM testing stack. The current verification is 40 unit/adversarial simulator tests and 11 native Direct Mode tests. The Direct Mode tests are local GenVM execution, not StudioNet finality. See [Deployment](DEPLOYMENT.md).
 
 ## Current provenance / delivery status
 
-The complete source has been pushed to the public [`ometere123/denominator`](https://github.com/ometere123/denominator) repository. It has **not yet been deployed or demonstrated through real GenVM on StudioNet**. There is deliberately no invented contract address, explorer link, transaction hash, finality receipt, or verified on-chain source parity. Those must be added only after independent proof.
+The current source is published at [`ometere123/denominator`](https://github.com/ometere123/denominator). Local verification currently records 40 unit tests, 11 native Direct Mode tests, three focused mutation checks, preflight, Python compilation, and GenVM 0.11.0 AST/semantic ABI validation against the pinned stable `v0.2.12` artifact. It has **not yet been deployed or demonstrated through finalized transactions on StudioNet** in this work. There is deliberately no invented contract address, explorer link, transaction hash, finality receipt, or verified on-chain source parity.
 
 ## Security & scope
 

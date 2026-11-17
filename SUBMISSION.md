@@ -29,8 +29,9 @@ The closed index's completeness is only as good as its independent publisher. Th
 ## Reproducible review material
 
 - `contracts/denominator.py`: standalone deployable source, custom validator consensus and deterministic accounting.
-- `tests/unit`: 35 dependency-free adversarial and lifecycle tests (verified locally at package creation).
-- `tests/direct`: real Direct Mode tests requiring the GenLayer test harness (not run during ZIP authoring).
+- `tests/unit`: 40 dependency-free adversarial and lifecycle tests, including strict duplicate-key and Keccak regressions.
+- `tests/direct`: 11 native Direct Mode tests using the pinned `genlayer-test` 0.29.2 harness, including validator disagreement paths.
+- `scripts/mutation_check.py`: three focused security mutants killed by the unit regressions.
 - `docs/CONSENSUS.md`: precisely what validators independently check.
 - `docs/THREAT_MODEL.md`: hostile and honest-failure cases and non-goals.
 - `fixtures/`: public synthetic cohort examples for exact and bounded outcomes.
@@ -38,4 +39,4 @@ The closed index's completeness is only as good as its independent publisher. Th
 
 ## Submission status
 
-**Repository source published; no fabricated production claim.** Deployment, direct-mode tests, deployed-source parity and explorer links remain pending until the operator can install compatible GenVM tooling and sign on stable Studionet 61999. The exact score is a reviewer decision; this package does not claim a score or guaranteed acceptance.
+**Repository source published; no fabricated production claim.** Offline, native Direct Mode, mutation, preflight, compilation and stable `v0.2.12` linter/schema checks pass in the current environment. Finalized StudioNet deployment, live exact/bounded/drift lifecycle receipts, independent consumer execution and deployed-source parity remain pending until they are actually performed on stable chain 61999. The exact score is a reviewer decision; this package does not claim a score or guaranteed acceptance.

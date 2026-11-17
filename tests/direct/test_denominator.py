@@ -129,6 +129,66 @@ def test_missing_case_source_is_not_a_failure(direct_vm, direct_deploy):
     assert direct_vm.run_validator() is True
 
 
+def test_native_validator_rejects_source_change_after_leader(direct_vm, direct_deploy):
+    contract, sid, cid = sealed(direct_vm, direct_deploy)
+    case = contract._case(cid)
+    study = contract._study(sid)
+    success_text = "case_A is active and explicitly completed successfully."
+    direct_vm.clear_mocks()
+    direct_vm.mock_web(r".*example\.org/case-a\.txt.*", {"status": 200, "body": success_text})
+    direct_vm.mock_llm(PROMPT, {"status": "SUCCESS", "evidence": success_text, "reason": "success"})
+    leader = contract._agreed_case(case, study)
+    assert leader["status"] == 2
+
+    changed_text = "case_A is active, but the outcome remains unresolved."
+    direct_vm.clear_mocks()
+    direct_vm.mock_web(r".*example\.org/case-a\.txt.*", {"status": 200, "body": changed_text})
+    direct_vm.mock_llm(PROMPT, {"status": "UNKNOWN", "evidence": changed_text, "reason": "pending"})
+    assert direct_vm.run_validator() is False
+
+
+def test_native_validator_rejects_forged_exclusion(direct_vm, direct_deploy):
+    contract, sid, cid = sealed(direct_vm, direct_deploy)
+    case = contract._case(cid)
+    study = contract._study(sid)
+    text = "case_A is active and explicitly completed successfully."
+    direct_vm.clear_mocks()
+    direct_vm.mock_web(r".*example\.org/case-a\.txt.*", {"status": 200, "body": text})
+    direct_vm.mock_llm(PROMPT, {"status": "EXCLUDED", "evidence": text, "reason": "forge"})
+    leader = contract._agreed_case(case, study)
+    assert leader["status"] == 1
+
+    direct_vm.clear_mocks()
+    direct_vm.mock_web(r".*example\.org/case-a\.txt.*", {"status": 200, "body": text})
+    direct_vm.mock_llm(PROMPT, {"status": "SUCCESS", "evidence": text, "reason": "eligible"})
+    assert direct_vm.run_validator() is False
+
+
+def test_native_validator_accepts_grounded_unknown(direct_vm, direct_deploy):
+    contract, sid, cid = sealed(direct_vm, direct_deploy)
+    case = contract._case(cid)
+    study = contract._study(sid)
+    text = "case_A is active, but its outcome remains unresolved."
+    direct_vm.clear_mocks()
+    direct_vm.mock_web(r".*example\.org/case-a\.txt.*", {"status": 200, "body": text})
+    direct_vm.mock_llm(PROMPT, {"status": "UNKNOWN", "evidence": text, "reason": "pending"})
+    leader = contract._agreed_case(case, study)
+    assert leader["status"] == 4
+    assert direct_vm.run_validator() is True
+
+
+def test_duplicate_census_key_rejected_in_native_web_path(direct_vm, direct_deploy):
+    direct_vm.warp(BASE.isoformat())
+    contract = direct_deploy(CONTRACT)
+    duplicate = '{"schema":"denominator-census/v1","closed":true,"closed":false,"declared_total":1,"cases":[{"id":"case_A","url":"https://example.org/case-a.txt"}]}'
+    direct_vm.mock_web(r".*example\.org/census\.json.*", {"status": 200, "body": duplicate})
+    sid = contract.create_study(
+        "Public demo", "Frozen sample cohort", "Active cases count in population",
+        "Cases explicitly marked complete count as success", INDEX_URL, epoch(START), epoch(DEADLINE))
+    with direct_vm.expect_revert():
+        contract.seal_census(sid)
+
+
 def test_only_author_can_seal_and_draft_cannot_seal_late(direct_vm, direct_deploy, direct_alice):
     direct_vm.warp(BASE.isoformat())
     contract = direct_deploy(CONTRACT)

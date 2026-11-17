@@ -10,6 +10,7 @@ Integrity of the declared cohort snapshot; preservation of every census member t
 | --- | --- | --- |
 | Cherry-pick 19 successful IDs from 100-member published census | The contract independently fetches the **entire** frozen manifest and creates each member, not a caller's chosen subset | A malicious original index publisher could omit 80 members **before closure**; the result is always scoped to the declared index |
 | Modify census after observed failures | Re-fetch at finalization; changed canonical list invalidates certificate | Mutable hosts can disappear indefinitely, blocking finalization |
+| Ambiguous duplicate JSON keys in a manifest or model response | Strict `object_pairs_hook` rejects repeated keys before normalization | The source publisher still controls the bytes it publishes |
 | Pretend 404/missing case is a failure or exclusion | `UNAVAILABLE` blocks certificate; only direct affirmative excerpts can justify exclusion/failure | No independent guarantee of source completeness |
 | Leave pending cases out of denominator | `UNKNOWN` is included in denominator; output is bounds, not exact percentage | Missing eligibility evidence remains `AMBIGUOUS` and prevents any certificate |
 | Forge leader class | Validator independently re-fetches, re-classifies, checks case ID and source digest | Correlated model failures remain possible |
@@ -21,6 +22,7 @@ Integrity of the declared cohort snapshot; preservation of every census member t
 | Replay old certificate for new period | Expected definition hash includes cohort digest and time window | Integrator must actually pin the expected hash |
 | Attack via open observation calls | Only indexed cases, max three retries for uncertain states, definitive case status immutable | Permissionless calls still require transaction fees; operator should monitor spam |
 | Suppress finalization | Any caller can finalize after deadline, with immutable census | Source unavailability can prevent the consensus check |
+| Turn a final census outage into drift | Finalization requires a successful independent manifest consensus; fetch failure aborts the transaction and leaves the study SEALED | Availability remains dependent on the public source and GenVM web boundary |
 | Claim certified rate with rounding errors | Integer floor/ceiling basis-point boundaries | Tiny sub-bps differences intentionally not represented |
 
 ## Explicit non-goals
