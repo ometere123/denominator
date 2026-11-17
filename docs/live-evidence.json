@@ -4,27 +4,41 @@
   "chain_id_hex": "0xf22f",
   "rpc": "https://studio.genlayer.com/api",
   "cli_version": "0.39.1",
+  "historical_deployments": {
+    "primary": {
+      "address": "0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe",
+      "deployment_tx": "0xa3024d59bfe73a2d1cf47c387b8fcfaea91cbc254b6b42548eca4d207ef77649",
+      "source_sha256": "0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5",
+      "note": "Historical CRLF-byte deployment; not proof for the normalized LF-byte release."
+    },
+    "consumer": {
+      "address": "0x592794e907166f7ff748E4e8bAc8398f30b8877a",
+      "deployment_tx": "0xa4cca14d3105e0172918a55519e7c710fbd1fd2e232f65549db9f9963cd3f517",
+      "source_sha256": "cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d",
+      "note": "Historical CRLF-byte consumer deployment bound to the historical primary."
+    }
+  },
   "primary": {
-    "address": "0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe",
-    "deployment_tx": "0xa3024d59bfe73a2d1cf47c387b8fcfaea91cbc254b6b42548eca4d207ef77649",
+    "address": "0xf6df5044147859B7A299eDF08eA575b1425D2A5d",
+    "deployment_tx": "0xcf86d040d45bfed27f09953f21a05868c7c09c2bff92db8fe58d794d39ffa28",
     "consensus": "MAJORITY_AGREE",
     "execution": "SUCCESS",
-    "source_sha256": "0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5",
-    "deployed_source_sha256": "0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5",
+    "source_sha256": "34a770eeb277dd9650ad0f9e68063086fbc4f9f3e35e4059b0641acad8d24e0e",
+    "deployed_source_sha256": "34a770eeb277dd9650ad0f9e68063086fbc4f9f3e35e4059b0641acad8d24e0e",
     "byte_parity": true
   },
   "exact_rate": {
     "study_id": 1,
-    "registration_tx": "0xd88b69f08627c84bf8bf375c0629ac653e06978fee9a60690bf5da8bd743544b",
-    "seal_tx": "0xeda17303b7940c3588a9898c325fe7ab5a16f6a1900132de126c5dcb67e0b3dc",
+    "registration_tx": "0x43437abc920554d0e3f44f7bd68cb6fda227c40d373578e80a5b3192ae7c15d9",
+    "seal_tx": "0x1d0439e76d17ad6a9a0e80b7a2289b2e94afea476cbc08af754d69f19e0fa05c",
     "observation_txs": {
-      "case_A": "0x1dc87e551e1b8a5f95f519be656e29b6aff22eeb348b526effab69749817099e",
-      "case_B": "0xb70a993e2bdb5728bbd822b35c0e276ade3f10f8f723dfdbe3c86d480fc85209",
-      "case_C": "0xc1800d4272982b765e8e314e7336e21731dea4771b904a7b150ac3d64ce2ad48"
+      "case_A": "0x1d42c12df60ce96a182bf373ff858562591dd183a4f086fec5bf3808ead44b55",
+      "case_B": "0x1f34d6e6171239746c69c4a752a95f3d1c788cb79940ef4f45fece2ccdbd0d2e",
+      "case_C": "0xfd1bde41cff0bb7f1ae3783f8437bb2eb1c18890b20bfe3dd8217122c6e2ad33"
     },
     "census_hash": "2b556c2b352f1108ad20ceb1bcab84b3d978e80184277e384cc7cb893aadcd39",
-    "definition_hash": "57f817108494834fc041c1b158c1fc9e1aa095d59c07cec4f10a52a6e40d32c3",
-    "finalization_tx": "0x4e44ab8fa922fe4c2217ec6557c04286726246051bc4973345720afb1760fe3b",
+    "definition_hash": "07f9c73f3a65816610e5b01a626a32d8750657e4ff86bbc0d45242dbfce6f849",
+    "finalization_tx": "0xe32f54b742a1849c394c0bf2d9ea5ead81c7364233b7bc82d7008abff8134d2b",
     "status": "CERTIFIED",
     "numerator": 1,
     "denominator": 2,
@@ -33,11 +47,12 @@
     "unresolved": 0,
     "lower_bps": 5000,
     "upper_bps": 5000,
-    "certificate_hash": "44413c3f4339deadb00c7a872720f5a9fb4f8066e11e8d751da8f8dbdb63545e",
+    "certificate_hash": "644ea09cc1ff9b9eb3455353ffb804618c206320868c06de3b80bb0ff93d5bdc",
     "threshold_5000": true,
     "threshold_5001": false
   },
   "bounded_rate": {
+    "deployment": "historical primary 0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe; not proof for the normalized LF-byte primary",
     "study_id": 3,
     "registration_tx": "0xbf2298f27b4b6431f843dec33e167f75c051a5cd3a49a238dac8350aff59ba75",
     "seal_tx": "0x3fcfcb32cdd8574cb362f10ddb5eb23ad634a600adcdca0368d4f70bb1126723",
@@ -63,6 +78,7 @@
     "floor_3334": false
   },
   "incomplete": {
+    "deployment": "historical primary 0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe; not proof for the normalized LF-byte primary",
     "study_id": 4,
     "registration_tx": "0xd97aa4dfffb725e360d78f87b543c59c1d203acfc364f2ad7e701a389f7f61c3",
     "seal_tx": "0xc467ffa9077df9e500d2efb1feae2e20d41eed8fa44de9d92d0d4beec862d821",
@@ -72,6 +88,7 @@
     "certificate_hash": ""
   },
   "zero_population": {
+    "deployment": "historical primary 0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe; not proof for the normalized LF-byte primary",
     "study_id": 5,
     "registration_tx": "0xa730f4719363b5ab1d2e6989ec70c6181fc3b2fedddf9e8fdea18107587a6d1e",
     "seal_tx": "0x163f2aa5f10b597025ca65b668b3b6d91c3f5eaa176806554b1cc76dde97fd3f",
@@ -83,6 +100,7 @@
     "certificate_hash": ""
   },
   "census_drift": {
+    "deployment": "historical primary 0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe; not proof for the normalized LF-byte primary",
     "study_id": 6,
     "registration_tx": "0x7a85719745b08d69c177049324099a0b222933fa8e34a4854dfa56c9c1767f70",
     "seal_tx": "0x751a9de70d9a735c85da3dee565612c4b1a7b860e509d6beb968bb9a156358a3",
@@ -98,20 +116,21 @@
     "note": "The valid public manifest changed from case_A to case_B after sealing. Finalization reached MAJORITY_AGREE with successful execution and stored CENSUS_DRIFTED."
   },
   "consumer": {
-    "address": "0x592794e907166f7ff748E4e8bAc8398f30b8877a",
-    "deployment_tx": "0xa4cca14d3105e0172918a55519e7c710fbd1fd2e232f65549db9f9963cd3f517",
-    "source_sha256": "cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d",
-    "deployed_source_sha256": "cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d",
+    "address": "0xF24FA9872cEeF626E43Ba9B4770161d8cFC07d55",
+    "deployment_tx": "0x1853729d7d02ff492647f0f40f1347969b9e4e00f8d2c8f5cb7a767cbcdd8f42",
+    "source_sha256": "bf561da31c507226dfc0db5cc3b30052ebde987ff8fc02e96f95ec1f57c9506d",
+    "deployed_source_sha256": "bf561da31c507226dfc0db5cc3b30052ebde987ff8fc02e96f95ec1f57c9506d",
     "byte_parity": true,
-    "unlock_tx": "0xa8804488eba63f6dcad0cd08e21c58de3b6b51050eeb865f739b6945523a6f4e",
+    "unlock_tx": "0x2be07b3a6402b0f4e16ee1a5bcf859d4ee54c5e73fc0906b9fa4ace71d114dad",
     "unlock_result": "SUCCESS",
-    "replay_tx": "0x5ee9508c801539cd96f42ac9a7882270e508c2f24fdfec282bea8bade0cb873e",
+    "replay_tx": "0x30fd1af011c28ad922dea422c20fe0af8a71cf9472565d3e120215245bd454f4",
     "replay_result": "EXPECTED_ROLLBACK_gate already unlocked",
     "is_unlocked": true
   },
   "scope_notes": [
     "All live fixtures are controlled synthetic files in the public repository.",
     "Different URLs and hostnames do not prove independent publishers.",
-    "The protocol certifies accounting relative to the declared public census; it does not prove universal real-world completeness or source truth."
+    "The protocol certifies accounting relative to the declared public census; it does not prove universal real-world completeness or source truth.",
+    "The current normalized-LF deployment has a fresh exact-rate and RateGate proof; bounded, incomplete, zero-population and drift entries are explicitly historical from the earlier byte-distinct deployment."
   ]
 }

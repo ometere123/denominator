@@ -88,33 +88,30 @@ their finalized transactions and readbacks were observed on stable StudioNet.
 The current ledger in `docs/live-evidence.json` contains only observed values
 from stable StudioNet.
 
-### Final primary deployment
+### Current final primary deployment
 
-- Address: `0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe`
-- Deployment transaction: `0xa3024d59bfe73a2d1cf47c387b8fcfaea91cbc254b6b42548eca4d207ef77649`
+- Address: `0xf6df5044147859B7A299eDF08eA575b1425D2A5d`
+- Deployment transaction: `0xcf86d040d45bfed27f09953f21a05868c7c09c2bff92db8fe58d794d39ffa28`
 - Result: `MAJORITY_AGREE`, finalized/accepted, successful execution.
-- Local and `gen_getContractCode` SHA-256: `0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5`.
+- Local and `gen_getContractCode` SHA-256: `34a770eeb277dd9650ad0f9e68063086fbc4f9f3e35e4059b0641acad8d24e0e`.
 
-An earlier deployment transaction (`0x668f6c784f4e58616d7a61961b81f7597d905e0fbd436ea327c1d41d462d09a`) finalized consensus but returned `invalid_contract`; it is historical failure evidence, not a deployment proof.
+The earlier CRLF-byte deployment at `0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe` (transaction `0xa3024d59bfe73a2d1cf47c387b8fcfaea91cbc254b6b42548eca4d207ef77649`, hash `0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5`) is historical. An earlier deployment transaction (`0x668f6c784f4e58616d7a61961b81f7597d905e0fbd436ea327c1d41d462d09a`) finalized consensus but returned `invalid_contract`; it is historical failure evidence, not a deployment proof.
 
-### Final consumer deployment
+### Current final consumer deployment
 
-- Address: `0x592794e907166f7ff748E4e8bAc8398f30b8877a`
-- Deployment transaction: `0xa4cca14d3105e0172918a55519e7c710fbd1fd2e232f65549db9f9963cd3f517`
-- Constructor: typed `addr#acc465d6d8138c1ca3322318616311c3f741e0fe`, study `1`, exact definition hash, threshold `5000`.
+- Address: `0xF24FA9872cEeF626E43Ba9B4770161d8cFC07d55`
+- Deployment transaction: `0x1853729d7d02ff492647f0f40f1347969b9e4e00f8d2c8f5cb7a767cbcdd8f42`
+- Constructor: typed `addr#f6df5044147859b7a299edf08ea575b1425d2a5d`, study `1`, definition hash `07f9c73f3a65816610e5b01a626a32d8750657e4ff86bbc0d45242dbfce6f849`, threshold `5000`.
 - Result: `MAJORITY_AGREE`, finalized/accepted, successful execution.
-- Local and `gen_getContractCode` SHA-256: `cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d`.
+- Local and `gen_getContractCode` SHA-256: `bf561da31c507226dfc0db5cc3b30052ebde987ff8fc02e96f95ec1f57c9506d`.
 
-The first consumer attempt used the invalid `addr#0x...` marker and finalized with a constructor execution error; it is not used as integration proof. The successful deployment uses the repository-local CLI's required `addr#` plus 40-hex encoding.
+The earlier consumer at `0x592794e907166f7ff748E4e8bAc8398f30b8877a` was bound to the historical primary and is not current integration proof. The first consumer attempt used the invalid `addr#0x...` marker and finalized with a constructor execution error; it is not used as integration proof. The current deployment uses the repository-local CLI's required `addr#` plus 40-hex encoding.
 
 ### Finalized controlled lifecycle results
 
-- Exact study `1`: finalized `CERTIFIED`, `1/2`, `5000–5000` bps; finalization `0x4e44ab8fa922fe4c2217ec6557c04286726246051bc4973345720afb1760fe3b`.
-- Bounded study `3`: finalized `BOUNDED`, numerator `1`, eligible denominator `3`, unknown `1`, `3333–6667` bps; finalization `0x5436cff22bed60816712bdddc40434add2d1ce804ad09dc62ecf43cdd4526be2`.
-- Incomplete study `4`: finalized `INCOMPLETE`, unresolved `3`; finalization `0xc24e44edee7d9b2f54960daf20cd2ffe1dadb48ce5832ed05cf2a705a54748a6`.
-- Zero-population study `5`: finalized `ZERO_POPULATION`, eligible denominator `0`, no certificate; finalization `0xb42e16ec76434fccf18ba567948528c0a066315edd2e4f52e93145649cd755ad`.
-- Census-drift study `6`: sealed against census hash `80feaf62d549c267a3f14b2f6fa33f726b3db19c1a533e354b169942c91a4952`; the valid mutable fixture was then changed and pushed as commit `626cd17`, producing changed hash `a89f01b5eaf3e1e567a1c3b5785c1895e1cb66356c76e28ee0508669c206b951d`. Finalization `0xf101410d697ad95e79981c29bfb80f37c5ecffec6bb598fbe9180d47dcb4423d` reached `MAJORITY_AGREE` with successful execution and stored `CENSUS_DRIFTED`; both certificate predicates read `false`.
-- RateGate unlock: `0xa8804488eba63f6dcad0cd08e21c58de3b6b51050eeb865f739b6945523a6f4e`, successful; replay rollback `0x5ee9508c801539cd96f42ac9a7882270e508c2f24fdfec282bea8bade0cb873e`; `is_unlocked()` remained `true`.
+- Current exact study `1`: finalized `CERTIFIED`, `1/2`, `5000–5000` bps; finalization `0xe32f54b742a1849c394c0bf2d9ea5ead81c7364233b7bc82d7008abff8134d2b`; `is_rate_certified(...,5000)=true`, `is_rate_certified(...,5001)=false`.
+- Historical controls on the prior primary: bounded study `3` finalized `BOUNDED`, incomplete study `4` finalized `INCOMPLETE`, zero-population study `5` finalized `ZERO_POPULATION`, and census-drift study `6` finalized `CENSUS_DRIFTED`. These receipts remain historical because the primary source bytes changed.
+- Current RateGate unlock: `0x2be07b3a6402b0f4e16ee1a5bcf859d4ee54c5e73fc0906b9fa4ace71d114dad`, successful; replay rollback `0x30fd1af011c28ad922dea422c20fe0af8a71cf9472565d3e120215245bd454f4`; `is_unlocked()` remained `true`.
 
 The public fixtures are synthetic and controlled. Their use can demonstrate
 protocol mechanics, but not publisher independence, universal population

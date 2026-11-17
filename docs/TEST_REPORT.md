@@ -51,9 +51,9 @@ accepting leader JSON shape alone.
 
 ## Live verification added after local testing
 
-- Final primary deployment on stable StudioNet: `0xaCC465d6D8138C1Ca3322318616311c3F741E0Fe`, finalized successful deployment transaction `0xa3024d59bfe73a2d1cf47c387b8fcfaea91cbc254b6b42548eca4d207ef77649`.
-- Exact controlled study: `CERTIFIED`, 1/2, 5000 bps; bounded controlled study: `BOUNDED`, 1/3 with 3333–6667 bps; incomplete and zero-population controls finalized as `INCOMPLETE` and `ZERO_POPULATION`.
-- Correctly typed RateGate deployed at `0x592794e907166f7ff748E4e8bAc8398f30b8877a`; authorized unlock succeeded and exact replay rolled back.
+- Final normalized-LF primary deployment on stable StudioNet: `0xf6df5044147859B7A299eDF08eA575b1425D2A5d`, finalized successful deployment transaction `0xcf86d040d45bfed27f09953f21a05868c7c09c2bff92db8fe58d794d39ffa28`.
+- Current exact controlled study: `CERTIFIED`, 1/2, 5000 bps; prior bounded, incomplete, zero-population and drift controls remain explicitly historical on the earlier byte-distinct deployment.
+- Correctly typed RateGate bound to the current primary is deployed at `0xF24FA9872cEeF626E43Ba9B4770161d8cFC07d55`; authorized unlock succeeded and exact replay rolled back.
 - `gen_getContractCode` byte readback matches the local primary and consumer files exactly.
 
-The live evidence is controlled synthetic fixture mechanics, not independent publisher evidence or a universal completeness guarantee. The mutable census-drift study was sealed after census version A, changed to valid version B in commit `626cd17`, and finalized after the deadline as `CENSUS_DRIFTED` in transaction `0xf101410d697ad95e79981c29bfb80f37c5ecffec6bb598fbe9180d47dcb4423d`; its certificate predicates read `false`.
+The live evidence is controlled synthetic fixture mechanics, not independent publisher evidence or a universal completeness guarantee. Historical bounded/incomplete/zero-population/drift controls are retained in the ledger but are not presented as proof for the normalized-LF deployment. The current exact and consumer proofs are the final-source evidence.

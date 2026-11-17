@@ -1,6 +1,7 @@
-0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5  contracts/denominator.py
-cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d  examples/rate_gate.py
+34a770eeb277dd9650ad0f9e68063086fbc4f9f3e35e4059b0641acad8d24e0e  contracts/denominator.py
+bf561da31c507226dfc0db5cc3b30052ebde987ff8fc02e96f95ec1f57c9506d  examples/rate_gate.py
 
-These are the final working-tree hashes. The primary and consumer were each
-read back through gen_getContractCode on stable StudioNet and matched these
-bytes exactly at the successful deployments recorded in DEPLOYMENT.md.
+These are the final LF-normalized working-tree hashes. The current primary and
+consumer were each read back through gen_getContractCode on stable StudioNet
+and matched these bytes exactly at the successful deployments recorded in
+DEPLOYMENT.md. Earlier CRLF-byte deployments are historical only.
