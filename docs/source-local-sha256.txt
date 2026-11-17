@@ -1,6 +1,6 @@
-95aaf2c759e3f493c58b2b8641303ea8fffda6ce9f54c4c9b8f7eeee281ab557  contracts/denominator.py
-32a89b108895f6ad2ef246ad002ac246a9f46d61641d8692c61cdf7d354ff290  examples/rate_gate.py
+0de2b7049737556ba15647b069dc51b9fbaab919fd2739b6fab778f834d983b5  contracts/denominator.py
+cf940bf5c13c038be35dc429be9dd4cb33797c048f54792a7306aba04d26d28d  examples/rate_gate.py
 
-These are the final working-tree hashes for commit 59b469bba0223245844d739119914e48477e0597.
+These are the final working-tree hashes for the pending GenVM metadata correction.
 They are not deployed-source hashes until a finalized StudioNet deployment and
 independent code readback have been completed.

@@ -1,5 +1,5 @@
+# v0.2.18
 # { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
-# GenLayer stable Studionet 61999. This file is the complete deployable source.
 from genlayer import *
 
 import json
