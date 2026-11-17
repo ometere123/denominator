@@ -1,1 +1,6 @@
-1d3f3dcc2ce2a7b2f06a862b19fdb92a22a35bc54287483015e55259551c1e3c  contracts/denominator.py
+95aaf2c759e3f493c58b2b8641303ea8fffda6ce9f54c4c9b8f7eeee281ab557  contracts/denominator.py
+32a89b108895f6ad2ef246ad002ac246a9f46d61641d8692c61cdf7d354ff290  examples/rate_gate.py
+
+These are the final working-tree hashes for commit 59b469bba0223245844d739119914e48477e0597.
+They are not deployed-source hashes until a finalized StudioNet deployment and
+independent code readback have been completed.
