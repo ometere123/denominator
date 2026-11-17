@@ -52,8 +52,12 @@ accepting leader JSON shape alone.
 ## Live verification added after local testing
 
 - Final normalized-LF primary deployment on stable StudioNet: `0xf6df5044147859B7A299eDF08eA575b1425D2A5d`, finalized successful deployment transaction `0xcf86d040d45bfed27f09953f21a05868c7c09c2bff92db8fe58d794d39ffa28`.
-- Current exact controlled study: `CERTIFIED`, 1/2, 5000 bps; prior bounded, incomplete, zero-population and drift controls remain explicitly historical on the earlier byte-distinct deployment.
+- Current exact controlled study: `CERTIFIED`, 1/2, 5000 bps.
+- Current bounded study: `BOUNDED`, 1/3, excluded=1, unknown=1, bounds 3333–6667 bps; exact predicate false and conservative floor predicates 3333=true/3334=false.
+- Current incomplete study: `INCOMPLETE`, unresolved=3, no certificate.
+- Current zero-population study: `ZERO_POPULATION`, eligible denominator=0, no certificate.
+- Current census-drift study: `CENSUS_DRIFTED`, with sealed and changed census hashes recorded in `docs/live-evidence.json`.
 - Correctly typed RateGate bound to the current primary is deployed at `0xF24FA9872cEeF626E43Ba9B4770161d8cFC07d55`; authorized unlock succeeded and exact replay rolled back.
 - `gen_getContractCode` byte readback matches the local primary and consumer files exactly.
 
-The live evidence is controlled synthetic fixture mechanics, not independent publisher evidence or a universal completeness guarantee. Historical bounded/incomplete/zero-population/drift controls are retained in the ledger but are not presented as proof for the normalized-LF deployment. The current exact and consumer proofs are the final-source evidence.
+The live evidence is controlled synthetic fixture mechanics, not independent publisher evidence or a universal completeness guarantee. All five current-primary lifecycle states and the consumer proof are now recorded in the ledger; the older CRLF-byte deployment remains historical only.

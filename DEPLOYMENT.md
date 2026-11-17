@@ -110,10 +110,13 @@ The earlier consumer at `0x592794e907166f7ff748E4e8bAc8398f30b8877a` was bound t
 ### Finalized controlled lifecycle results
 
 - Current exact study `1`: finalized `CERTIFIED`, `1/2`, `5000–5000` bps; finalization `0xe32f54b742a1849c394c0bf2d9ea5ead81c7364233b7bc82d7008abff8134d2b`; `is_rate_certified(...,5000)=true`, `is_rate_certified(...,5001)=false`.
-- Historical controls on the prior primary: bounded study `3` finalized `BOUNDED`, incomplete study `4` finalized `INCOMPLETE`, zero-population study `5` finalized `ZERO_POPULATION`, and census-drift study `6` finalized `CENSUS_DRIFTED`. These receipts remain historical because the primary source bytes changed.
+- Current bounded study `4`: finalization `0x0d4d547e6080e16a28b52f226da32646c214d3e5a8d759606de5e14f53fd5c13`, `BOUNDED`, `1/3`, excluded `1`, unknown `1`, bounds `3333–6667`; exact predicate false, floor `3333=true`, floor `3334=false`.
+- Current incomplete study `5`: finalization `0x854862d6ca896a37461af995203deb292128652f6fcfa555d9e9d9e4277da2ba`, `INCOMPLETE`, unresolved `3`, no certificate; exact and floor predicates false.
+- Current zero-population study `6`: finalization `0xe372d74cb9093b861454a274096434d6a1b25ed8f53a97e6c0d596fa7de4113f`, `ZERO_POPULATION`, eligible denominator `0`, no certificate; exact and floor predicates false.
+- Current census-drift study `7`: finalization `0xec3e17c0508fe9a73aebc36da288414100f6e6738ae91d1b8daff9dd8ff30ba0`, `CENSUS_DRIFTED`, sealed hash `80feaf62d549c267a3f14b2f6fa33f726b3db19c1a533e354b169942c91a4952`, changed hash `a89f01b5eaf3e1e567a1c3b5785c1895e1cb66356c76e28ee0508669c206b951d`, no certificate.
 - Current RateGate unlock: `0x2be07b3a6402b0f4e16ee1a5bcf859d4ee54c5e73fc0906b9fa4ace71d114dad`, successful; replay rollback `0x30fd1af011c28ad922dea422c20fe0af8a71cf9472565d3e120215245bd454f4`; `is_unlocked()` remained `true`.
 
-The public fixtures are synthetic and controlled. Their use can demonstrate
-protocol mechanics, but not publisher independence, universal population
-completeness or real-world truth. A census outage at finalization must remain
+The public fixtures are synthetic and controlled. Their use demonstrates the
+current-primary protocol mechanics, but not publisher independence, universal
+population completeness or real-world truth. A census outage at finalization must remain
 an availability/consensus failure, not be relabelled as `CENSUS_DRIFTED`.
